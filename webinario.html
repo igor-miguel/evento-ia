@@ -222,39 +222,39 @@
                 e.preventDefault();
                 setIsLoading(true);
                 
-                // 1. Captura os dados dos inputs
-                const formData = {
-                    nome: e.target[0].value,
-                    email: e.target[1].value,
-                    whatsapp: e.target[2].value,
-                    origem: "Landing Page Elite",
-                    data: new Date().toISOString()
-                };
+                const nome = e.target[0].value;
+                const email = e.target[1].value;
+                const whatsapp = e.target[2].value;
 
-                // ---------------------------------------------------------
-                // 2. CONFIGURAÇÃO DE ENVIO (Webhook n8n / Make / Zapier)
-                // ---------------------------------------------------------
-                // Cole o link do seu Webhook (Production URL) entre as aspas abaixo:
+                const formData = new URLSearchParams();
+                formData.append("nome", nome);
+                formData.append("email", email);
+                formData.append("whatsapp", whatsapp);
+                formData.append("origem", "Landing Page Elite");
+                formData.append("data", new Date().toISOString());
+
                 const WEBHOOK_URL = "https://webhook.gruponexusmind.com.br/webhook/webinario"; 
                 
                 try {
                     if (WEBHOOK_URL) {
-                        // Envia para o n8n
                         await fetch(WEBHOOK_URL, {
                             method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(formData)
+                            mode: 'no-cors',
+                            headers: { 
+                                'Content-Type': 'application/x-www-form-urlencoded' 
+                            },
+                            body: formData
                         });
-                        alert("Parabéns! Sua vaga foi reservada. Verifique seu e-mail.");
+                        
+                        alert("Parabéns! Sua vaga foi reservada com sucesso. Verifique seu e-mail.");
                     } else {
-                        // Modo de Teste (Se não tiver link ainda)
-                        console.log("DADOS CAPTURADOS (Simulação):", formData);
+                        console.log("DADOS CAPTURADOS (Simulação):", { nome, email, whatsapp });
                         alert("Simulação: Dados capturados! (Configure o Webhook no código para salvar real)");
                     }
                     onClose();
                 } catch (error) {
                     console.error("Erro no envio:", error);
-                    alert("Ops! Houve um erro ao processar sua inscrição. Tente novamente.");
+                    alert("Ops! Houve um erro de conexão. Verifique sua internet e tente novamente.");
                 } finally {
                     setIsLoading(false);
                 }
@@ -341,37 +341,21 @@
             return (
                 <div className="min-h-screen flex flex-col items-center w-full">
                     
-                    {/* --- TOP BANNER --- */}
-                    <div className="w-full bg-gradient-to-r from-black via-[#1a1500] to-black border-b border-yellow-900/20 py-3 text-center relative z-20">
-                        <p className="text-yellow-600/90 text-[10px] md:text-xs font-serif-elite tracking-[0.2em] uppercase">
-                            evento exclusivo para quem quer ganhar dinheiro de verdade com IA.
-                        </p>
-                    </div>
-
                     {/* --- HERO SECTION --- */}
                     <header className="w-full relative min-h-screen flex flex-col justify-center items-center text-center px-4 py-20 bg-marble border-b border-[#333]">
                         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent opacity-80 pointer-events-none"></div>
                         
-                        <div className="z-10 max-w-4xl mx-auto space-y-8 animate-fade-in-up">
+                        <div className="z-10 max-w-4xl mx-auto w-full space-y-8 animate-fade-in-up flex flex-col items-center">
+                            
                             <div className="inline-block px-4 py-1 border border-yellow-700/50 rounded-full bg-black/50 mb-4 backdrop-blur-sm">
                                 <span className="text-yellow-500 text-xs tracking-[0.2em] font-serif-elite uppercase">Masterclass Secreta Online e Gratuita &bull; Quinta-Feira às 19h30</span>
                             </div>
 
-                            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white drop-shadow-lg">
-                                DO ZERO AO <br/>
-                                <span className="text-gold-gradient font-serif-elite">PRIMEIRO CONTRATO</span>
+                            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white drop-shadow-lg max-w-5xl mb-8">
+                                OS 3 SEGREDOS PARA FATURAR SEUS PRIMEIROS <br/>
+                                <span className="text-gold-gradient font-serif-elite">10K COM IA EM APENAS 30 DIAS</span>
                             </h1>
-
-                            <p className="text-lg md:text-xl text-gray-300 font-light max-w-2xl mx-auto leading-relaxed border-l-2 border-yellow-600 pl-6 text-left md:text-center md:border-l-0 md:pl-0">
-                                Copie a <strong className="text-white font-semibold">'Venda Diagnóstica'</strong> da Elite Silenciosa e feche seus primeiros clientes de IA.
-                            </p>
-
-                            <div className="bg-black/40 p-6 border border-white/10 rounded-lg max-w-3xl mx-auto backdrop-blur-md">
-                                <p className="text-gray-400 text-sm md:text-base italic">
-                                    "A maioria tenta vender 'IA' e é ignorada. Descubra como usar um roteiro simples de perguntas para fechar clientes de IA de alto valor, sem disputar preço e mesmo começando hoje."
-                                </p>
-                            </div>
-
+                            
                             <div className="pt-8 flex flex-col items-center gap-4">
                                 <button 
                                     onClick={openModal}
@@ -396,32 +380,7 @@
                             
                             <div className="space-y-6 text-gray-300 font-light text-lg leading-relaxed text-justify mt-8">
                                 <p>
-                                    Se você está tentando vender Agentes de IA falando sobre <span className="text-white font-normal">"LLMs"</span>, <span className="text-white font-normal">"n8n"</span> ou <span className="text-white font-normal">"Engenharia de Prompt"</span>, você já perdeu a venda.
-                                </p>
-                                <p>
-                                    O empresário não quer saber como o relógio funciona. <strong className="text-yellow-500 font-serif-elite">Ele só quer saber as horas.</strong>
-                                </p>
-                                <p>
-                                    O problema é que a maioria dos iniciantes comete o mesmo erro fatal: tentar vender a tecnologia em vez de vender o alívio. Eles passam horas construindo agentes complexos, mas na hora de vender:
-                                </p>
-                                
-                                <ul className="space-y-4 my-8 pl-6 border-l border-yellow-800/30">
-                                    <li className="flex items-start gap-3">
-                                        <span className="text-red-500 mt-1">✕</span>
-                                        Ficam travados sem saber quanto cobrar.
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="text-red-500 mt-1">✕</span>
-                                        Ouvem "tá caro" e acabam baixando o preço.
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <span className="text-red-500 mt-1">✕</span>
-                                        Trabalham de graça na esperança de "ganhar visibilidade".
-                                    </li>
-                                </ul>
-
-                                <p>
-                                    A culpa não é sua. Ninguém te ensinou a vender. Te ensinaram apenas a apertar botões.
+                                    A culpa não é sua. Ninguém te ensinou a vender. Te ensinaram apenas a apertar botões e usar templates.
                                 </p>
                                 <p className="text-xl text-white font-medium border-t border-b border-white/10 py-6">
                                     Mas existe um grupo seleto — a <span className="text-gold-gradient font-serif-elite">"Elite Silenciosa"</span> — que joga um jogo diferente. Eles não vendem "horas de programação". Eles vendem soluções de negócios usando um método específico que elimina a concorrência.
@@ -440,7 +399,7 @@
                             <div className="text-center mb-16">
                                 <h2 className="text-3xl md:text-5xl font-serif-elite text-white mb-4">O que vai receber</h2>
                                 <div className="h-1 w-24 bg-yellow-600 mx-auto"></div>
-                                <p className="mt-4 text-gray-400">Vou ignorar a parte técnica e entregar o "Manual de Negócios" da Elite.</p>
+                                <p className="mt-4 text-gray-400">Vou ignorar a parte técnica e te ensinar realmente como você vai ganhar dinheiro.</p>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -568,21 +527,77 @@
                         </div>
                     </section>
 
-                    {/* --- FOOTER / FINAL CTA --- */}
-                    <footer id="registro" className="w-full py-24 px-4 bg-black relative text-center">
+                    {/* --- FOOTER / FINAL CTA WITH TICKET --- */}
+                    <footer id="registro" className="w-full py-24 px-4 bg-black relative text-center overflow-hidden">
                         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
                         
-                        <div className="max-w-3xl mx-auto relative z-10 space-y-8">
-                            <h2 className="text-3xl md:text-5xl font-serif-elite text-white">
+                        <div className="max-w-3xl mx-auto relative z-10 flex flex-col items-center">
+                            <h2 className="text-3xl md:text-5xl font-serif-elite text-white mb-12">
                                 A Escolha é Sua
                             </h2>
-                            <p className="text-gray-400 text-lg">
-                                O mercado de IA está criando milionários agora mesmo. Mas também está deixando muita gente para trás brincando com ferramentas gratuitas.
-                                <br/><br/>
-                                A diferença entre quem brinca e quem lucra é apenas um método de vendas.
-                            </p>
                             
-                            <div className="pt-8">
+                            {/* --- VISUAL TICKET --- */}
+                            <div className="relative w-full max-w-[600px] bg-gradient-to-br from-[#1a1500] via-[#0a0a0a] to-[#1a1500] border border-[#D4AF37] rounded-xl shadow-[0_0_60px_rgba(212,175,55,0.15)] mb-12 group hover:scale-[1.02] transition-transform duration-500 cursor-default">
+                                {/* Glow Effect */}
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#D4AF37]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                                
+                                <div className="flex flex-col md:flex-row h-full relative z-10">
+                                    {/* Main Ticket Area */}
+                                    <div className="flex-1 p-8 text-left flex flex-col justify-between border-b md:border-b-0 md:border-r border-[#D4AF37]/30 border-dashed relative">
+                                        {/* Perforation Circles (Top/Bottom for Mobile, Top/Bottom for Desktop logic adjusted) */}
+                                        <div className="absolute -right-3 top-[-1px] w-6 h-6 bg-black rounded-full hidden md:block border-b border-[#D4AF37]"></div>
+                                        <div className="absolute -right-3 bottom-[-1px] w-6 h-6 bg-black rounded-full hidden md:block border-t border-[#D4AF37]"></div>
+                                        
+                                        <div>
+                                            <div className="flex items-center gap-3 mb-4 opacity-80">
+                                                <span className="text-[#D4AF37] text-[10px] tracking-[0.2em] uppercase border border-[#D4AF37] px-2 py-1 rounded">Ingresso Unitário</span>
+                                                <span className="text-gray-500 text-[10px] tracking-widest uppercase">Nº 0001-ELITE</span>
+                                            </div>
+                                            <h3 className="text-3xl font-serif-elite text-white mb-2 tracking-wide text-shadow">MASTERCLASS <br/><span className="text-gold-gradient">SECRETA</span></h3>
+                                            <p className="text-gray-400 text-xs uppercase tracking-[0.2em]">10K com Inteligência Artificial</p>
+                                        </div>
+
+                                        <div className="mt-8 flex gap-8">
+                                            <div>
+                                                <p className="text-[#D4AF37] text-[10px] font-bold uppercase tracking-widest mb-1">Data</p>
+                                                <p className="text-white text-sm font-medium">Quinta-Feira</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-[#D4AF37] text-[10px] font-bold uppercase tracking-widest mb-1">Horário</p>
+                                                <p className="text-white text-sm font-medium">19h30</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-[#D4AF37] text-[10px] font-bold uppercase tracking-widest mb-1">Local</p>
+                                                <p className="text-white text-sm font-medium">Online</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Stub / Right Side */}
+                                    <div className="w-full md:w-40 bg-[#050505]/50 p-6 flex flex-col items-center justify-center relative">
+                                        {/* Mobile Perforation Circles */}
+                                        <div className="absolute -left-3 -top-3 w-6 h-6 bg-black rounded-full md:hidden"></div>
+                                        <div className="absolute -right-3 -top-3 w-6 h-6 bg-black rounded-full md:hidden"></div>
+
+                                        <div className="text-[#D4AF37]/40 font-serif-elite text-xl font-bold tracking-widest rotate-0 md:-rotate-90 whitespace-nowrap mb-4 md:mb-0">
+                                            ADMIT ONE
+                                        </div>
+                                        
+                                        {/* Fake QR Code */}
+                                        <div className="w-16 h-16 bg-white/10 p-1 mt-0 md:mt-4 md:absolute md:bottom-6">
+                                            <div className="w-full h-full border border-white/20 flex items-center justify-center">
+                                                <div className="w-10 h-10 bg-[#D4AF37] opacity-80 grid grid-cols-3 gap-0.5 p-0.5">
+                                                    {[...Array(9)].map((_, i) => (
+                                                        <div key={i} className={`bg-black ${i%2===0?'opacity-100':'opacity-0'}`}></div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="pt-4">
                                 <button 
                                     onClick={openModal}
                                     className="btn-elite px-10 py-6 text-lg md:text-xl rounded w-full md:w-auto uppercase shadow-[0_0_40px_rgba(212,175,55,0.15)]"
