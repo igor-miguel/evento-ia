@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Inscrição Confirmada - A Elite Silenciosa</title>
+  
+   <!-- React and ReactDOM -->
+   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  
+   <!-- Babel for JSX -->
+   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+   <!-- Tailwind CSS -->
+   <script src="https://cdn.tailwindcss.com"></script>
+  
+   <!-- Google Fonts -->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+
+   <style>
+       /* --- ESTRUTURA VISUAL DA ELITE (Mantida) --- */
+       :root {
+           --gold-primary: #D4AF37;
+           --gold-light: #F4E29F;
+           --gold-dark: #8A6E24;
+           --bg-deep: #050505;
+           --bg-card: #0F0F0F;
+       }
+
+
+       body {
+           background-color: var(--bg-deep);
+           color: #E5E5E5;
+           font-family: 'Montserrat', sans-serif;
+           overflow-x: hidden;
+       }
+
+
+       h1, h2, h3, h4, .font-serif-elite {
+           font-family: 'Cinzel', serif;
+       }
+
+
+       /* Gold Gradient Text */
+       .text-gold-gradient {
+           background: linear-gradient(to bottom, var(--gold-light), var(--gold-primary), var(--gold-dark));
+           -webkit-background-clip: text;
+           -webkit-text-fill-color: transparent;
+       }
+
+
+       /* Golden Glow Button */
+       .btn-elite {
+           background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
+           border: 1px solid var(--gold-light);
+           color: #000;
+           font-family: 'Cinzel', serif;
+           font-weight: 700;
+           letter-spacing: 0.05em;
+           transition: all 0.4s ease;
+           box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+           position: relative;
+           overflow: hidden;
+           cursor: pointer;
+           text-transform: uppercase;
+       }
+
+
+       .btn-elite:hover {
+           transform: translateY(-2px);
+           box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+       }
+
+
+       /* WhatsApp Button Variation */
+       .btn-whatsapp {
+           background: linear-gradient(135deg, #128C7E 0%, #25D366 50%, #128C7E 100%);
+           border: 1px solid #4ade80;
+           color: white;
+           font-family: 'Montserrat', sans-serif; /* Mais moderno para zap */
+           font-weight: 700;
+           box-shadow: 0 0 15px rgba(37, 211, 102, 0.2);
+       }
+       .btn-whatsapp:hover {
+           box-shadow: 0 0 25px rgba(37, 211, 102, 0.4);
+       }
+
+
+       /* Marble Texture Overlay */
+       .bg-marble {
+           background-image: url('https://i.postimg.cc/kXKBbH9y/Gemini-Generated-Image-2ug5j2ug5j2ug5j2.png');
+           background-size: cover;
+           background-position: center;
+           background-blend-mode: overlay;
+           background-color: rgba(5, 5, 5, 0.95); /* Um pouco mais escuro para leitura */
+       }
+
+
+       /* Steps Card */
+       .step-card {
+           background: rgba(20, 20, 20, 0.6);
+           border: 1px solid rgba(212, 175, 55, 0.1);
+           backdrop-filter: blur(10px);
+       }
+   </style>
+</head>
+<body>
+   <div id="root"></div>
+
+
+   <script type="text/babel">
+       const { useState, useEffect } = React;
+
+
+       // --- ICONS ---
+       const CheckCircle = ({ size = 24, className = "" }) => (
+           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+               <polyline points="22 4 12 14.01 9 11.01"></polyline>
+           </svg>
+       );
+
+
+       const Mail = ({ size = 24, className = "" }) => (
+           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+               <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+           </svg>
+       );
+
+
+       const MessageCircle = ({ size = 24, className = "" }) => (
+           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+               <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+           </svg>
+       );
+
+
+       // --- NEW LOGO COMPONENT ---
+       const Logo = ({ className = "" }) => (
+           <div className={`flex items-center gap-3 ${className}`}>
+               <div className="relative w-9 h-9 flex items-center justify-center">
+                   <div className="absolute inset-0 border-[1.5px] border-[#D4AF37] rounded-full opacity-80"></div>
+                   <span className="font-serif-elite text-[#D4AF37] font-bold text-sm tracking-[-0.05em] relative top-[1px]">ES</span>
+               </div>
+               <span className="font-serif-elite text-[#D4AF37] text-[10px] tracking-[0.2em] uppercase relative top-[2px]">Elite Silenciosa</span>
+           </div>
+       );
+
+
+       const App = () => {
+           return (
+               <div className="min-h-screen flex flex-col items-center justify-center w-full bg-marble relative px-4">
+                  
+                   {/* Content Box */}
+                   <div className="max-w-2xl w-full bg-[#0a0a0a]/90 border border-[#D4AF37]/30 p-8 md:p-12 rounded-lg text-center relative shadow-[0_0_80px_rgba(0,0,0,0.8)] animate-fade-in-up">
+                      
+                       {/* Header Element removed (Logo) */}
+
+
+                       <div className="mt-8 mb-8">
+                           <div className="w-20 h-20 bg-green-900/20 border border-green-500/50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(34,197,94,0.2)]">
+                               <CheckCircle size={40} className="text-green-500" />
+                           </div>
+                          
+                           <h1 className="text-3xl md:text-5xl font-bold font-serif-elite text-white mb-4">
+                               INSCRIÇÃO <span className="text-gold-gradient">(QUASE) CONFIRMADA!</span>
+                           </h1>
+                           <p className="text-gray-400 text-lg">
+                               Parabéns! Você acaba de dar o primeiro passo.
+                           </p>
+                       </div>
+
+
+                       {/* Steps / Instructions */}
+                       <div className="space-y-4 mb-10 text-left">
+                           {/* Old Step 1 Removed */}
+
+
+                           <div className="step-card p-4 rounded flex items-start gap-4 border-green-500/20">
+                               <div className="mt-1 text-green-500">
+                                   <MessageCircle size={24} />
+                               </div>
+                               <div>
+                                   <h4 className="text-white font-serif-elite font-bold">Passo 1: Entre no grupo VIP para validar seu ingresso (mega importante)</h4>
+                                   <p className="text-gray-400 text-sm mt-1">
+                                       Para não perder o aviso da aula, entre no nosso grupo silencioso no WhatsApp. É lá que mandarei o link da sala fechada.
+                                   </p>
+                               </div>
+                           </div>
+                       </div>
+
+
+                       {/* CTA Button */}
+                       <a
+                           href="https://chat.whatsapp.com/DB9ZfYLweZWCCX3GQxf0Xf"
+                           target="_blank"
+                           className="btn-elite btn-whatsapp w-full py-5 text-lg rounded flex items-center justify-center gap-3 transition-transform hover:scale-[1.02]"
+                       >
+                           <MessageCircle size={20} />
+                           ENTRAR NO GRUPO VIP AGORA
+                       </a>
+                      
+                       <p className="mt-6 text-xs text-gray-600">
+                           Fique tranquilo, o grupo é silenciado e livre de spam.
+                       </p>
+
+
+                   </div>
+
+
+                   <footer className="absolute bottom-4 text-center w-full text-[10px] text-gray-700 uppercase tracking-widest">
+                       © 2025 Elite Silenciosa. Todos os direitos reservados.
+                   </footer>
+
+
+               </div>
+           );
+       };
+
+
+       const root = ReactDOM.createRoot(document.getElementById('root'));
+       root.render(<App />);
+   </script>
+</body>
+</html>
