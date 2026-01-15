@@ -196,11 +196,10 @@
                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                        body: formData
                    });
-                   // Redirect to Checkout instead of Obrigado page
+                   // Redirect to Checkout
                    window.location.href = CHECKOUT_LINK;
                } catch (error) {
                    console.error("Erro no envio:", error);
-                   // Even on error, we might want to redirect to checkout so we don't lose the sale
                    window.location.href = CHECKOUT_LINK;
                }
            };
@@ -212,14 +211,14 @@
                        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-white"><X size={24} /></button>
                        <div className="text-center mb-6">
                            <h3 className="text-2xl font-serif-elite text-white mb-2">Garanta sua Vaga</h3>
-                           <p className="text-gray-400 text-sm">Preencha seus dados para receber o link de acesso secreto.</p>
+                           <p className="text-gray-400 text-sm">Preencha seus dados para continuar para o pagamento.</p>
                        </div>
                        <form onSubmit={handleSubmit} className="space-y-4">
                            <input type="text" placeholder="Nome Completo" required className="w-full p-3 rounded input-elite" />
                            <input type="email" placeholder="Seu Melhor E-mail" required className="w-full p-3 rounded input-elite" />
                            <input type="tel" placeholder="(DDD) 99999-9999" required className="w-full p-3 rounded input-elite" />
                            <button type="submit" disabled={isLoading} className="btn-elite w-full py-4 text-lg mt-4 uppercase tracking-widest rounded disabled:opacity-50">
-                               {isLoading ? "Processando..." : "Confirmar Presença Gratuita"}
+                               {isLoading ? "Processando..." : "Ir para Pagamento"}
                            </button>
                        </form>
                        <div className="mt-4 text-center">
@@ -262,10 +261,10 @@
                            </h2>
                            <div className="pt-8 flex flex-col items-center gap-4">
                                <button onClick={handleCtaClick} className="btn-elite px-8 py-5 text-lg md:text-xl rounded shadow-2xl uppercase tracking-widest w-full md:w-auto min-w-[300px]">
-                                   GARANTIR MINHA VAGA GRATUITA
+                                   GARANTIR MEU INGRESSO - R$ 19,90
                                </button>
                                <p className="text-xs text-yellow-600/80 tracking-widest uppercase flex items-center gap-2">
-                                   <Lock size={12} /> 100% Online e Gratuito &bull; Vagas Limitadas
+                                   <Lock size={12} /> 100% Online &bull; Vagas Limitadas
                                </p>
                            </div>
                        </div>
@@ -380,9 +379,9 @@
                                <div className="bg-[#111] p-8 border border-white/5 rounded-sm">
                                    <h4 className="text-white font-serif-elite mb-6 border-b border-white/10 pb-4">Para quem é isso?</h4>
                                    <ul className="space-y-4">
-                                       <li className="flex gap-3 text-gray-300 text-sm"><CheckCircle className="text-yellow-600" /> Para quem quer uma nova fonte de renda com IA.</li>
-                                       <li className="flex gap-3 text-gray-300 text-sm"><CheckCircle className="text-yellow-600" /> Para quem já estuda IA, mas ainda não ganha dinheiro.</li>
-                                       <li className="flex gap-3 text-gray-300 text-sm"><CheckCircle className="text-yellow-600" /> Para quem quer ser pago pela inteligência.</li>
+                                           <li className="flex gap-3 text-gray-300 text-sm"><CheckCircle className="text-yellow-600" /> Para quem quer uma nova fonte de renda com IA.</li>
+                                           <li className="flex gap-3 text-gray-300 text-sm"><CheckCircle className="text-yellow-600" /> Para quem já estuda IA, mas ainda não ganha dinheiro.</li>
+                                           <li className="flex gap-3 text-gray-300 text-sm"><CheckCircle className="text-yellow-600" /> Para quem quer ser pago pela inteligência.</li>
                                    </ul>
                                </div>
                            </div>
@@ -406,10 +405,11 @@
                                            <h3 className="text-3xl font-serif-elite text-white mb-2 uppercase">Masterclass <br/><span className="text-gold-gradient">Secreta</span></h3>
                                            <p className="text-gray-400 text-[10px] uppercase tracking-widest">Seu Primeiro Cliente de IA</p>
                                        </div>
-                                       <div className="mt-8 flex gap-6">
-                                           <div><p className="text-[#D4AF37] text-[9px] uppercase font-bold mb-0.5">Data</p><p className="text-white text-xs">Quinta-Feira</p></div>
+                                       <div className="mt-8 grid grid-cols-4 gap-4">
+                                           <div><p className="text-[#D4AF37] text-[9px] uppercase font-bold mb-0.5">Data</p><p className="text-white text-xs">Quinta</p></div>
                                            <div><p className="text-[#D4AF37] text-[9px] uppercase font-bold mb-0.5">Horário</p><p className="text-white text-xs">19h30</p></div>
                                            <div><p className="text-[#D4AF37] text-[9px] uppercase font-bold mb-0.5">Local</p><p className="text-white text-xs">Online</p></div>
+                                           <div><p className="text-[#D4AF37] text-[9px] uppercase font-bold mb-0.5">Valor</p><p className="text-white text-sm font-bold">R$ 19,90</p></div>
                                        </div>
                                    </div>
                                    <div className="w-full md:w-40 bg-[#050505]/50 p-6 flex flex-col items-center justify-center">
@@ -424,7 +424,7 @@
                            </div>
                            <div className="pt-4">
                                <button onClick={handleCtaClick} className="btn-elite px-10 py-6 text-xl rounded w-full md:w-auto uppercase shadow-2xl">
-                                   GARANTIR MINHA VAGA GRATUITA
+                                   GARANTIR MEU INGRESSO - R$ 19,90
                                </button>
                                <p className="mt-6 text-xs text-gray-600 uppercase tracking-widest">© 2025 Todos os direitos reservados.</p>
                            </div>
