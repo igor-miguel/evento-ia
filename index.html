@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
    <meta charset="UTF-8">
@@ -20,9 +20,8 @@
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-
    <style>
-       /* Custom Styles for Elite Aesthetic */
+       /* --- ELITE AESTHETIC STYLES --- */
        :root {
            --gold-primary: #D4AF37;
            --gold-light: #F4E29F;
@@ -31,7 +30,6 @@
            --bg-card: #0F0F0F;
        }
 
-
        body {
            background-color: var(--bg-deep);
            color: #E5E5E5;
@@ -39,11 +37,9 @@
            overflow-x: hidden;
        }
 
-
        h1, h2, h3, h4, .font-serif-elite {
            font-family: 'Cinzel', serif;
        }
-
 
        /* Gold Gradient Text */
        .text-gold-gradient {
@@ -51,7 +47,6 @@
            -webkit-background-clip: text;
            -webkit-text-fill-color: transparent;
        }
-
 
        /* Golden Glow Button */
        .btn-elite {
@@ -68,7 +63,6 @@
            cursor: pointer;
        }
 
-
        .btn-elite::before {
            content: '';
            position: absolute;
@@ -80,17 +74,14 @@
            transition: 0.5s;
        }
 
-
        .btn-elite:hover::before {
            left: 100%;
        }
-
 
        .btn-elite:hover {
            transform: translateY(-2px);
            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
        }
-
 
        /* Marble Texture Overlay */
        .bg-marble {
@@ -100,7 +91,6 @@
            background-blend-mode: overlay;
            background-color: rgba(5, 5, 5, 0.92);
        }
-
 
        /* Pillar Card Styling */
        .pillar-card {
@@ -121,7 +111,6 @@
            background: radial-gradient(circle, var(--gold-dark) 0%, transparent 100%);
        }
 
-
        /* Input Styling */
        .input-elite {
            background-color: rgba(255, 255, 255, 0.05);
@@ -136,228 +125,99 @@
            background-color: rgba(255, 255, 255, 0.1);
        }
 
-
-       /* Custom Scrollbar */
-       ::-webkit-scrollbar {
-           width: 8px;
+       /* Animations */
+       @keyframes fadeInUp {
+           from { opacity: 0; transform: translateY(20px); }
+           to { opacity: 1; transform: translateY(0); }
        }
-       ::-webkit-scrollbar-track {
-           background: #000;
-       }
-       ::-webkit-scrollbar-thumb {
-           background: var(--gold-dark);
-           border-radius: 4px;
+       .animate-fade-in-up {
+           animation: fadeInUp 0.8s ease-out forwards;
        }
    </style>
 </head>
 <body>
    <div id="root"></div>
 
-
    <script type="text/babel">
        const { useState, useEffect } = React;
 
-
        // --- ICON COMPONENTS ---
-      
-       const Search = ({ size = 24, className = "" }) => (
-           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-               <circle cx="11" cy="11" r="8"></circle>
-               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-           </svg>
+       const Search = ({ size = 24 }) => (
+           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
        );
-
-
-       const Stethoscope = ({ size = 24, className = "" }) => (
-           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-               <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"></path>
-               <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"></path>
-               <circle cx="20" cy="10" r="2"></circle>
-           </svg>
+       const Stethoscope = ({ size = 24 }) => (
+           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"></path><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"></path><circle cx="20" cy="10" r="2"></circle></svg>
        );
-
-
-       const DollarSign = ({ size = 24, className = "" }) => (
-           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-               <line x1="12" y1="1" x2="12" y2="23"></line>
-               <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-           </svg>
+       const DollarSign = ({ size = 24 }) => (
+           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
        );
-
-
-       const Calendar = ({ size = 24, className = "" }) => (
-           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-               <line x1="16" y1="2" x2="16" y2="6"></line>
-               <line x1="8" y1="2" x2="8" y2="6"></line>
-               <line x1="3" y1="10" x2="21" y2="10"></line>
-           </svg>
+       const Calendar = ({ className }) => (
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
        );
-
-
-       const Clock = ({ size = 24, className = "" }) => (
-           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-               <circle cx="12" cy="12" r="10"></circle>
-               <polyline points="12 6 12 12 16 14"></polyline>
-           </svg>
+       const Clock = ({ className }) => (
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
        );
-
-
-       const MapPin = ({ size = 24, className = "" }) => (
-           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-               <circle cx="12" cy="10" r="3"></circle>
-           </svg>
+       const MapPin = ({ className }) => (
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
        );
-
-
-       const CheckCircle = ({ size = 24, className = "" }) => (
-           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-               <polyline points="22 4 12 14.01 9 11.01"></polyline>
-           </svg>
+       const CheckCircle = ({ className }) => (
+           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
        );
-
-
-       const Lock = ({ size = 24, className = "" }) => (
-           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-               <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-           </svg>
+       const Lock = ({ size = 24 }) => (
+           <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
        );
-
-
-       const X = ({ size = 24, className = "" }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-               <line x1="18" y1="6" x2="6" y2="18"></line>
-               <line x1="6" y1="6" x2="18" y2="18"></line>
-           </svg>
+       const X = ({ size = 24 }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
        );
-
 
        // --- SUBSCRIPTION MODAL ---
        const Modal = ({ isOpen, onClose }) => {
            const [isLoading, setIsLoading] = useState(false);
-
-
            if (!isOpen) return null;
-
 
            const handleSubmit = async (e) => {
                e.preventDefault();
                setIsLoading(true);
-              
-               // 1. Captura os dados
-               const nome = e.target[0].value;
-               const email = e.target[1].value;
-               const whatsapp = e.target[2].value;
-
-
-               // 2. Prepara os dados (URLSearchParams evita bloqueio CORS)
                const formData = new URLSearchParams();
-               formData.append("nome", nome);
-               formData.append("email", email);
-               formData.append("whatsapp", whatsapp);
+               formData.append("nome", e.target[0].value);
+               formData.append("email", e.target[1].value);
+               formData.append("whatsapp", e.target[2].value);
                formData.append("origem", "Landing Page Elite");
                formData.append("data", new Date().toISOString());
 
-
-               // 3. Webhook do n8n
                const WEBHOOK_URL = "https://webhook.gruponexusmind.com.br/webhook/webinario";
-              
                try {
-                   if (WEBHOOK_URL) {
-                       // Envia para o n8n
-                       await fetch(WEBHOOK_URL, {
-                           method: 'POST',
-                           mode: 'no-cors', // Modo 'no-cors' permite enviar sem esperar resposta
-                           headers: {
-                               'Content-Type': 'application/x-www-form-urlencoded'
-                           },
-                           body: formData
-                       });
-                      
-                       // 4. REDIRECIONA PARA A PÁGINA DE OBRIGADO
-                       window.location.href = "obrigado.html";
-                      
-                   } else {
-                       // Modo de teste (se URL estiver vazia)
-                       console.log("Simulação de envio:", { nome, email, whatsapp });
-                       window.location.href = "obrigado.html";
-                   }
+                   await fetch(WEBHOOK_URL, {
+                       method: 'POST',
+                       mode: 'no-cors',
+                       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                       body: formData
+                   });
+                   window.location.href = "obrigado.html";
                } catch (error) {
                    console.error("Erro no envio:", error);
-                   // Mesmo com erro de rede, tentamos redirecionar ou avisar
-                   alert("Ops! Verifique sua conexão e tente novamente.");
+                   alert("Erro ao processar. Tente novamente.");
                    setIsLoading(false);
                }
            };
 
-
            return (
                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                   <div
-                       className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
-                       onClick={onClose}
-                   ></div>
-                  
-                   <div className="relative bg-[#0F0F0F] border border-[#D4AF37] rounded-lg shadow-[0_0_50px_rgba(212,175,55,0.2)] max-w-md w-full p-8 animate-fade-in-up">
-                       <button
-                           onClick={onClose}
-                           className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"
-                       >
-                           <X size={24} />
-                       </button>
-
-
+                   <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
+                   <div className="relative bg-[#0F0F0F] border border-[#D4AF37] rounded-lg shadow-2xl max-w-md w-full p-8 animate-fade-in-up">
+                       <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-white"><X size={24} /></button>
                        <div className="text-center mb-6">
                            <h3 className="text-2xl font-serif-elite text-white mb-2">Garanta sua Vaga</h3>
                            <p className="text-gray-400 text-sm">Preencha seus dados para receber o link de acesso secreto.</p>
                        </div>
-
-
                        <form onSubmit={handleSubmit} className="space-y-4">
-                           <div>
-                               <label className="block text-xs uppercase tracking-widest text-[#D4AF37] mb-2">Nome Completo</label>
-                               <input
-                                   type="text"
-                                   required
-                                   className="w-full p-3 rounded input-elite"
-                                   placeholder="Digite seu nome"
-                               />
-                           </div>
-                          
-                           <div>
-                               <label className="block text-xs uppercase tracking-widest text-[#D4AF37] mb-2">Seu Melhor E-mail</label>
-                               <input
-                                   type="email"
-                                   required
-                                   className="w-full p-3 rounded input-elite"
-                                   placeholder="Digite seu e-mail"
-                               />
-                           </div>
-
-
-                           <div>
-                               <label className="block text-xs uppercase tracking-widest text-[#D4AF37] mb-2">WhatsApp</label>
-                               <input
-                                   type="tel"
-                                   required
-                                   className="w-full p-3 rounded input-elite"
-                                   placeholder="(DDD) 99999-9999"
-                               />
-                           </div>
-
-
-                           <button
-                               type="submit"
-                               disabled={isLoading}
-                               className="btn-elite w-full py-4 text-lg mt-4 uppercase tracking-widest rounded disabled:opacity-50 disabled:cursor-not-allowed"
-                           >
+                           <input type="text" placeholder="Nome Completo" required className="w-full p-3 rounded input-elite" />
+                           <input type="email" placeholder="Seu Melhor E-mail" required className="w-full p-3 rounded input-elite" />
+                           <input type="tel" placeholder="(DDD) 99999-9999" required className="w-full p-3 rounded input-elite" />
+                           <button type="submit" disabled={isLoading} className="btn-elite w-full py-4 text-lg mt-4 uppercase tracking-widest rounded disabled:opacity-50">
                                {isLoading ? "Processando..." : "Confirmar Presença Gratuita"}
                            </button>
                        </form>
-                      
                        <div className="mt-4 text-center">
                             <p className="text-[10px] text-gray-600 uppercase flex items-center justify-center gap-1">
                                <Lock size={10} /> Seus dados estão 100% seguros
@@ -368,47 +228,29 @@
            );
        };
 
-
        // --- APP COMPONENT ---
-
-
        const App = () => {
            const [isModalOpen, setIsModalOpen] = useState(false);
-
-
-           const openModal = () => setIsModalOpen(true);
-           const closeModal = () => setIsModalOpen(false);
-
 
            return (
                <div className="min-h-screen flex flex-col items-center w-full">
                   
-                   {/* --- HERO SECTION --- */}
+                   {/* HERO SECTION */}
                    <header className="w-full relative min-h-screen flex flex-col justify-center items-center text-center px-4 py-20 bg-marble border-b border-[#333]">
                        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent opacity-80 pointer-events-none"></div>
-                      
-                       <div className="z-10 max-w-4xl mx-auto w-full space-y-8 animate-fade-in-up flex flex-col items-center">
-                          
+                       <div className="z-10 max-w-5xl mx-auto w-full space-y-8 animate-fade-in-up flex flex-col items-center">
                            <div className="inline-block px-4 py-1 border border-yellow-700/50 rounded-full bg-black/50 mb-4 backdrop-blur-sm">
-                               <span className="text-yellow-500 text-xs tracking-[0.2em] font-serif-elite uppercase">Masterclass Secreta Online e Gratuita &bull; Quinta-Feira às 19h30</span>
+                               <span className="text-yellow-500 text-xs tracking-[0.2em] font-serif-elite uppercase">Masterclass Secreta &bull; Quinta-Feira às 19h30</span>
                            </div>
-
-
-                           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white drop-shadow-lg max-w-5xl mb-8">
-                               OS 3 SEGREDOS PARA FATURAR SEUS PRIMEIROS <br/>
-                               <span className="text-gold-gradient font-serif-elite">10K COM IA EM APENAS 30 DIAS</span>
+                           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white drop-shadow-lg max-w-4xl mb-8 uppercase">
+                               Como fechar seu primeiro cliente de <br/>
+                               <span className="text-gold-gradient font-serif-elite">Inteligência Artificial</span>
                            </h1>
-                          
-                           <h2 className="text-sm md:text-lg text-white/80 font-light mt-2 font-serif-elite tracking-wide">
-                               MESMO NÃO TENDO NENHUM CLIENTE E COMEÇANDO DO ZERO.
+                           <h2 className="text-sm md:text-2xl text-white/90 font-light mt-2 max-w-3xl leading-relaxed italic">
+                               mesmo começando do zero.
                            </h2>
-
-
                            <div className="pt-8 flex flex-col items-center gap-4">
-                               <button
-                                   onClick={openModal}
-                                   className="btn-elite px-8 py-5 text-lg md:text-xl rounded shadow-2xl uppercase tracking-widest w-full md:w-auto min-w-[300px]"
-                               >
+                               <button onClick={() => setIsModalOpen(true)} className="btn-elite px-8 py-5 text-lg md:text-xl rounded shadow-2xl uppercase tracking-widest w-full md:w-auto min-w-[300px]">
                                    GARANTIR MINHA VAGA GRATUITA
                                </button>
                                <p className="text-xs text-yellow-600/80 tracking-widest uppercase flex items-center gap-2">
@@ -416,297 +258,165 @@
                                </p>
                            </div>
                        </div>
-                      
                        <div className="absolute bottom-0 w-full h-24 bg-gradient-to-t from-[var(--bg-deep)] to-transparent"></div>
                    </header>
 
-
-                   {/* --- THE LETTER (PROBLEM) --- */}
+                   {/* THE LETTER (PROBLEM) */}
                    <section className="w-full py-20 px-4 bg-[var(--bg-deep)] relative">
                        <div className="max-w-2xl mx-auto relative">
-                           {/* Decorative architectural line */}
                            <div className="absolute -left-8 top-0 h-full w-[1px] bg-gradient-to-b from-transparent via-yellow-900 to-transparent hidden md:block"></div>
-                          
                            <div className="space-y-6 text-gray-300 font-light text-lg leading-relaxed text-justify mt-8">
-                               <p>
-                                   Se você está tentando vender Agentes de IA falando sobre <span className="text-white font-normal">"LLMs"</span>, <span className="text-white font-normal">"n8n"</span> ou <span className="text-white font-normal">"Engenharia de Prompt"</span>, você já perdeu a venda.
-                               </p>
-                               <p>
-                                   O empresário não quer saber como o relógio funciona. <strong className="text-yellow-500 font-serif-elite">Ele só quer saber as horas.</strong>
-                               </p>
-                               <p>
-                                   O problema é que a maioria dos iniciantes comete o mesmo erro fatal: tentar vender a tecnologia em vez de vender o alívio. Eles passam horas construindo agentes complexos, mas na hora de vender:
-                               </p>
-                              
+                               <p>Se você está tentando vender Agentes de IA falando sobre <span className="text-white font-normal">"LLMs"</span>, <span className="text-white font-normal">"n8n"</span> ou <span className="text-white font-normal">"Engenharia de Prompt"</span>, você já perdeu a venda.</p>
+                               <p>O empresário não quer saber como o relógio funciona. <strong className="text-yellow-500 font-serif-elite">Ele só quer saber as horas.</strong></p>
+                               <p>A maioria dos iniciantes comete o mesmo erro fatal: tentar vender a tecnologia em vez de vender o alívio. Eles passam horas construindo agentes complexos, mas na hora de vender:</p>
                                <ul className="space-y-4 my-8 pl-6 border-l border-yellow-800/30">
-                                   <li className="flex items-start gap-3">
-                                       <span className="text-red-500 mt-1">✕</span>
-                                       Ficam travados sem saber quanto cobrar.
-                                   </li>
-                                   <li className="flex items-start gap-3">
-                                       <span className="text-red-500 mt-1">✕</span>
-                                       Ouvem "tá caro" e acabam baixando o preço.
-                                   </li>
-                                   <li className="flex items-start gap-3">
-                                       <span className="text-red-500 mt-1">✕</span>
-                                       Trabalham de graça na esperança de "ganhar visibilidade".
-                                   </li>
+                                   <li className="flex items-start gap-3"><span className="text-red-500 mt-1">✕</span> Ficam travados sem saber quanto cobrar.</li>
+                                   <li className="flex items-start gap-3"><span className="text-red-500 mt-1">✕</span> Ouvem "tá caro" e acabam baixando o preço.</li>
+                                   <li className="flex items-start gap-3"><span className="text-red-500 mt-1">✕</span> Trabalham de graça na esperança de "ganhar visibilidade".</li>
                                </ul>
-
-
-                               <p>
-                                   A culpa não é sua. Ninguém te ensinou a vender. Te ensinaram apenas a apertar botões e usar templates.
-                               </p>
-                               <p className="text-xl text-white font-medium border-t border-b border-white/10 py-6">
-                                   Mas existe um grupo seleto — a <span className="text-gold-gradient font-serif-elite">"Elite Silenciosa"</span> — que joga um jogo diferente. Eles não vendem "horas de programação". Eles vendem soluções de negócios usando um método específico que elimina a concorrência.
-                               </p>
+                               <p>A culpa não é sua. Ninguém te ensinou a vender. Te ensinaram apenas a apertar botões e usar templates.</p>
+                               <p className="text-xl text-white font-medium border-t border-b border-white/10 py-6">Mas existe um grupo seleto — a <span className="text-gold-gradient font-serif-elite">"Elite Silenciosa"</span> — que joga um jogo diferente. Eles não vendem "horas de programação". Eles vendem soluções de negócios.</p>
                            </div>
                        </div>
                    </section>
 
-
-                   {/* --- THE MECHANISM (PILLARS) - Renamed to "O que vai receber" --- */}
+                   {/* THE MECHANISM (PILLARS) */}
                    <section className="w-full py-24 px-4 bg-[#0a0a0a] relative overflow-hidden">
-                       {/* Background structural elements */}
                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1px] h-full bg-yellow-900/20"></div>
                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-yellow-900/10 via-black to-black"></div>
-
-
                        <div className="max-w-6xl mx-auto relative z-10">
                            <div className="text-center mb-16">
                                <h2 className="text-3xl md:text-5xl font-serif-elite text-white mb-4">O que vai receber</h2>
                                <div className="h-1 w-24 bg-yellow-600 mx-auto"></div>
                                <p className="mt-4 text-gray-400">Vou ignorar a parte técnica e te ensinar realmente como você vai ganhar dinheiro.</p>
                            </div>
-
-
                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                               {/* Pillar 1 */}
-                               <div className="pillar-card p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-transform duration-500">
-                                   <div className="w-16 h-16 rounded-full bg-black border border-yellow-600 flex items-center justify-center mb-6 text-yellow-500 group-hover:text-white group-hover:bg-yellow-600 transition-colors">
-                                       <Search size={32} />
-                                   </div>
+                               <div className="pillar-card p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all">
+                                   <div className="w-16 h-16 rounded-full border border-yellow-600 flex items-center justify-center mb-6 text-yellow-500"><Search size={32} /></div>
                                    <h3 className="text-xl font-serif-elite text-gold-light mb-4">O Radar de Oportunidade</h3>
-                                   <p className="text-gray-400 text-sm leading-relaxed">
-                                       Como encontrar empresas que precisam de IA agora (e sabem que têm um problema), em vez de tentar convencer céticos. Vou te mostrar onde o dinheiro está escondido.
-                                   </p>
+                                   <p className="text-gray-400 text-sm leading-relaxed">Como encontrar empresas que precisam de IA agora, em vez de tentar convencer céticos. Vou mostrar onde o dinheiro está escondido.</p>
                                </div>
-
-
-                               {/* Pillar 2 */}
-                               <div className="pillar-card p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-transform duration-500 transform scale-105 border-yellow-500/50 shadow-[0_0_30px_rgba(212,175,55,0.1)] z-10">
-                                   <div className="absolute -top-3 bg-yellow-600 text-black text-[10px] uppercase font-bold px-3 py-1 tracking-widest">
-                                       O Grande Diferencial
-                                   </div>
-                                   <div className="w-16 h-16 rounded-full bg-black border border-yellow-600 flex items-center justify-center mb-6 text-yellow-500 group-hover:text-white group-hover:bg-yellow-600 transition-colors">
-                                       <Stethoscope size={32} />
-                                   </div>
+                               <div className="pillar-card p-8 flex flex-col items-center text-center transform scale-105 border-yellow-500/50 shadow-2xl z-10">
+                                   <div className="absolute -top-3 bg-yellow-600 text-black text-[10px] uppercase font-bold px-3 py-1 tracking-widest">O Diferencial</div>
+                                   <div className="w-16 h-16 rounded-full border border-yellow-600 flex items-center justify-center mb-6 text-yellow-500"><Stethoscope size={32} /></div>
                                    <h3 className="text-xl font-serif-elite text-gold-light mb-4">A Venda Diagnóstica</h3>
-                                   <p className="text-gray-400 text-sm leading-relaxed">
-                                       Pare de agir como vendedor. O segredo da Elite é agir como <strong>Doutor</strong>. O roteiro de perguntas exato que faz o cliente diagnosticar a própria dor e implorar pela sua solução.
-                                   </p>
-                                   <ul className="mt-4 text-xs text-gray-500 space-y-1">
-                                       <li>• Sem empurrar serviços</li>
-                                       <li>• Sem parecer desesperado</li>
-                                       <li>• Apenas lógica pura</li>
-                                   </ul>
+                                   <p className="text-gray-400 text-sm leading-relaxed">Pare de agir como vendedor. O segredo da Elite é agir como <strong>Doutor</strong>. O roteiro de perguntas exato para o cliente implorar pela solução.</p>
                                </div>
-
-
-                               {/* Pillar 3 */}
-                               <div className="pillar-card p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-transform duration-500">
-                                   <div className="w-16 h-16 rounded-full bg-black border border-yellow-600 flex items-center justify-center mb-6 text-yellow-500 group-hover:text-white group-hover:bg-yellow-600 transition-colors">
-                                       <DollarSign size={32} />
-                                   </div>
+                               <div className="pillar-card p-8 flex flex-col items-center text-center group hover:-translate-y-2 transition-all">
+                                   <div className="w-16 h-16 rounded-full border border-yellow-600 flex items-center justify-center mb-6 text-yellow-500"><DollarSign size={32} /></div>
                                    <h3 className="text-xl font-serif-elite text-gold-light mb-4">A Precificação de Valor</h3>
-                                   <p className="text-gray-400 text-sm leading-relaxed">
-                                       Como cobrar R$ 15.000, R$ 120.000 ou mais por uma solução simples, baseando seu preço no lucro que você gera, e não nas horas que você gasta.
-                                   </p>
+                                   <p className="text-gray-400 text-sm leading-relaxed">Como cobrar R$ 15.000 ou R$ 120.000 por uma solução simples, baseando seu preço no lucro que você gera para a empresa.</p>
                                </div>
                            </div>
                        </div>
                    </section>
 
+                   {/* PROFESSORS SECTION */}
+                   <section className="w-full py-24 px-4 bg-[var(--bg-deep)] relative border-t border-yellow-900/30">
+                       <div className="max-w-6xl mx-auto">
+                           <h2 className="text-3xl md:text-4xl font-serif-elite text-white mb-16 text-center">Quem serão seus professores?</h2>
+                           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                               {/* IGOR */}
+                               <div className="flex flex-col md:flex-row items-center gap-8 bg-black/30 p-8 rounded-lg border border-white/5 group">
+                                   <div className="w-48 h-48 md:w-56 md:h-56 bg-[#111] border-2 border-yellow-600/30 rounded-lg overflow-hidden flex-shrink-0">
+                                       <img src="https://i.postimg.cc/gjqbY3FR/IMG-3566.jpg" alt="Igor Miguel" className="w-full h-full object-cover object-top" />
+                                   </div>
+                                   <div className="flex-1 text-center md:text-left">
+                                       <h3 className="text-xl font-serif-elite text-gold-light mb-2">Igor Miguel</h3>
+                                       <div className="h-[1px] w-12 bg-yellow-800 mx-auto md:mx-0 mb-4"></div>
+                                       <p className="text-gray-300 text-xs font-light leading-relaxed mb-3">
+                                           Cofundador da <strong className="text-white">Grupo NexusMind</strong>, uma empresa focada em soluções de IA para médias e grandes empresas, responsáveis por atuar em grandes projetos.
+                                       </p>
+                                       <p className="text-gray-300 text-xs font-light leading-relaxed">
+                                           Fundador da <strong className="text-white">Comunidade Coliseu</strong>, com mais de 70 membros que criaram um negócio de verdade com IA e hoje faturam <span className="text-yellow-500 font-semibold">10, 20, 50, 80 mil por mês.</span>
+                                       </p>
+                                   </div>
+                               </div>
+                               {/* LUCAS */}
+                               <div className="flex flex-col md:flex-row items-center gap-8 bg-black/30 p-8 rounded-lg border border-white/5 group">
+                                   <div className="w-48 h-48 md:w-56 md:h-56 bg-[#111] border-2 border-yellow-600/30 rounded-lg overflow-hidden flex-shrink-0">
+                                       <img src="https://raw.githubusercontent.com/igor-miguel/evento-ia/44e3af774574aca8a3bcd34dde3ee0ca192c542e/lucas.png" alt="Lucas Assumpção" className="w-full h-full object-cover object-center" />
+                                   </div>
+                                   <div className="flex-1 text-center md:text-left">
+                                       <h3 className="text-xl font-serif-elite text-gold-light mb-2">Lucas Assumpção</h3>
+                                       <div className="h-[1px] w-12 bg-yellow-800 mx-auto md:mx-0 mb-4"></div>
+                                       <p className="text-gray-300 text-xs font-light leading-relaxed mb-3">Cofundador do <strong className="text-white">Grupo NexusMind</strong>, especialista no desenvolvimento de agentes de IA e otimização de processos estratégicos.</p>
+                                       <p className="text-gray-300 text-xs font-light leading-relaxed">Estrategista digital com mais de <span className="text-yellow-500 font-semibold">R$ 6 milhões gerados</span> na internet unindo tecnologia e funis de vendas.</p>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </section>
 
-                   {/* --- LOGISTICS (THE PLAN) --- */}
+                   {/* LOGISTICS */}
                    <section className="w-full py-20 px-4 bg-[#080808] border-t border-white/5">
                        <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center">
                            <div className="flex-1 space-y-6">
                                <h2 className="text-3xl font-serif-elite text-white">Como irá funcionar</h2>
-                               <p className="text-gray-400">Vou abrir a estrutura da minha própria operação para você copiar e colar.</p>
-                              
                                <div className="space-y-4 mt-6">
-                                   <div className="flex items-center gap-4 text-gold-light">
-                                       <Calendar className="w-6 h-6" />
-                                       <span className="text-lg">Dia: Quinta-feira</span>
-                                   </div>
-                                   <div className="flex items-center gap-4 text-gold-light">
-                                       <Clock className="w-6 h-6" />
-                                       <span className="text-lg">Horário: 19h30</span>
-                                   </div>
-                                   <div className="flex items-center gap-4 text-gold-light">
-                                       <MapPin className="w-6 h-6" />
-                                       <span className="text-lg">Sala fechada (link no grupo)</span>
-                                   </div>
+                                   <div className="flex items-center gap-4 text-gold-light"><Calendar className="w-6 h-6" /><span className="text-lg">Quinta-feira</span></div>
+                                   <div className="flex items-center gap-4 text-gold-light"><Clock className="w-6 h-6" /><span className="text-lg">19h30</span></div>
+                                   <div className="flex items-center gap-4 text-gold-light"><MapPin className="w-6 h-6" /><span className="text-lg">Sala fechada (Online)</span></div>
                                </div>
                            </div>
-
-
                            <div className="flex-1 w-full">
                                <div className="bg-[#111] p-8 border border-white/5 rounded-sm">
                                    <h4 className="text-white font-serif-elite mb-6 border-b border-white/10 pb-4">Para quem é isso?</h4>
                                    <ul className="space-y-4">
-                                       <li className="flex gap-3 text-gray-300 text-sm">
-                                           <CheckCircle className="w-5 h-5 text-yellow-600 flex-shrink-0" />
-                                           Para quem quer uma nova fonte de renda usando IA.
-                                       </li>
-                                       <li className="flex gap-3 text-gray-300 text-sm">
-                                           <CheckCircle className="w-5 h-5 text-yellow-600 flex-shrink-0" />
-                                           Para quem já estuda IA, mas ainda não ganhou dinheiro de verdade.
-                                       </li>
-                                       <li className="flex gap-3 text-gray-300 text-sm">
-                                           <CheckCircle className="w-5 h-5 text-yellow-600 flex-shrink-0" />
-                                           Para quem quer ser pago pela inteligência, não pelo esforço braçal.
-                                       </li>
+                                       <li className="flex gap-3 text-gray-300 text-sm"><CheckCircle className="text-yellow-600" /> Para quem quer uma nova fonte de renda com IA.</li>
+                                       <li className="flex gap-3 text-gray-300 text-sm"><CheckCircle className="text-yellow-600" /> Para quem já estuda IA, mas ainda não ganha dinheiro.</li>
+                                       <li className="flex gap-3 text-gray-300 text-sm"><CheckCircle className="text-yellow-600" /> Para quem quer ser pago pela inteligência.</li>
                                    </ul>
                                </div>
                            </div>
                        </div>
                    </section>
 
-
-                   {/* --- QUEM SERÁ SEU PROFESSOR --- */}
-                   <section className="w-full py-24 px-4 bg-[var(--bg-deep)] relative border-t border-yellow-900/30">
-                       <div className="max-w-4xl mx-auto">
-                           <h2 className="text-3xl md:text-4xl font-serif-elite text-white mb-16 text-center">
-                               Quem será seu professor?
-                           </h2>
-                          
-                           <div className="flex flex-col md:flex-row items-center gap-12">
-                               {/* Image Placeholder */}
-                               <div className="flex-shrink-0 relative group w-full md:w-auto flex justify-center">
-                                   <div className="absolute inset-0 bg-yellow-600 blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
-                                   <div className="w-64 h-64 md:w-80 md:h-80 bg-[#111] border-2 border-yellow-600/50 rounded-lg relative overflow-hidden flex items-center justify-center">
-                                       <img
-                                           src="https://i.postimg.cc/gjqbY3FR/IMG-3566.jpg"
-                                           alt="Igor Miguel"
-                                           className="w-full h-full object-cover object-top transition-all duration-500"
-                                       />
-                                   </div>
-                               </div>
-
-
-                               {/* Bio Text */}
-                               <div className="flex-1 text-center md:text-left space-y-6">
-                                   <h3 className="text-2xl font-serif-elite text-gold-light">Igor Miguel</h3>
-                                   <div className="h-[1px] w-20 bg-yellow-800 mx-auto md:mx-0"></div>
-                                   <p className="text-gray-300 leading-relaxed text-lg font-light">
-                                       Cofundador da <strong className="text-white">Grupo NexusMind</strong>, uma empresa focada em soluções de IA para médias e grandes empresas, responsáveis por atuar em grandes projetos.
-                                   </p>
-                                   <p className="text-gray-300 leading-relaxed text-lg font-light">
-                                       Fundador da <strong className="text-white">Comunidade Coliseu</strong>, com mais de 70 membros que criaram um negócio de verdade com IA e hoje faturam <span className="text-yellow-500 font-semibold">10, 20, 50, 80 mil por mês.</span>
-                                   </p>
-                               </div>
-                           </div>
-                       </div>
-                   </section>
-
-
-                   {/* --- FOOTER / FINAL CTA WITH TICKET --- */}
+                   {/* FOOTER / TICKET */}
                    <footer id="registro" className="w-full py-24 px-4 bg-black relative text-center overflow-hidden">
-                       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
-                      
                        <div className="max-w-3xl mx-auto relative z-10 flex flex-col items-center">
-                           <h2 className="text-3xl md:text-5xl font-serif-elite text-white mb-12">
-                               A Escolha é Sua
-                           </h2>
-                          
-                           {/* --- VISUAL TICKET --- */}
-                           <div className="relative w-full max-w-[600px] bg-gradient-to-br from-[#1a1500] via-[#0a0a0a] to-[#1a1500] border border-[#D4AF37] rounded-xl shadow-[0_0_60px_rgba(212,175,55,0.15)] mb-12 group hover:scale-[1.02] transition-transform duration-500 cursor-default">
-                               {/* Glow Effect */}
-                               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#D4AF37]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-                              
+                           <h2 className="text-3xl md:text-5xl font-serif-elite text-white mb-12">A Escolha é Sua</h2>
+                           {/* VISUAL TICKET */}
+                           <div className="relative w-full max-w-[600px] bg-gradient-to-br from-[#1a1500] via-[#0a0a0a] to-[#1a1500] border border-[#D4AF37] rounded-xl shadow-2xl mb-12">
                                <div className="flex flex-col md:flex-row h-full relative z-10">
-                                   {/* Main Ticket Area */}
                                    <div className="flex-1 p-8 text-left flex flex-col justify-between border-b md:border-b-0 md:border-r border-[#D4AF37]/30 border-dashed relative">
-                                       {/* Perforation Circles (Top/Bottom for Mobile, Top/Bottom for Desktop logic adjusted) */}
-                                       <div className="absolute -right-3 top-[-1px] w-6 h-6 bg-black rounded-full hidden md:block border-b border-[#D4AF37]"></div>
-                                       <div className="absolute -right-3 bottom-[-1px] w-6 h-6 bg-black rounded-full hidden md:block border-t border-[#D4AF37]"></div>
-                                      
+                                       <div className="absolute -right-3 top-[-12px] w-6 h-6 bg-black rounded-full border-b border-[#D4AF37] hidden md:block"></div>
+                                       <div className="absolute -right-3 bottom-[-12px] w-6 h-6 bg-black rounded-full border-t border-[#D4AF37] hidden md:block"></div>
                                        <div>
                                            <div className="flex items-center gap-3 mb-4 opacity-80">
-                                               <span className="text-[#D4AF37] text-[10px] tracking-[0.2em] uppercase border border-[#D4AF37] px-2 py-1 rounded">Ingresso Unitário</span>
-                                               <span className="text-gray-500 text-[10px] tracking-widest uppercase">Nº 0001-ELITE</span>
+                                               <span className="text-[#D4AF37] text-[10px] tracking-widest border border-[#D4AF37] px-2 py-0.5 rounded uppercase font-bold">Ingresso Elite</span>
                                            </div>
-                                           <h3 className="text-3xl font-serif-elite text-white mb-2 tracking-wide text-shadow">MASTERCLASS <br/><span className="text-gold-gradient">SECRETA</span></h3>
-                                           <p className="text-gray-400 text-xs uppercase tracking-[0.2em]">10K com Inteligência Artificial</p>
+                                           <h3 className="text-3xl font-serif-elite text-white mb-2 uppercase">Masterclass <br/><span className="text-gold-gradient">Secreta</span></h3>
+                                           <p className="text-gray-400 text-[10px] uppercase tracking-widest">Seu Primeiro Cliente de IA</p>
                                        </div>
-
-
-                                       <div className="mt-8 flex gap-8">
-                                           <div>
-                                               <p className="text-[#D4AF37] text-[10px] font-bold uppercase tracking-widest mb-1">Data</p>
-                                               <p className="text-white text-sm font-medium">Quinta-Feira</p>
-                                           </div>
-                                           <div>
-                                               <p className="text-[#D4AF37] text-[10px] font-bold uppercase tracking-widest mb-1">Horário</p>
-                                               <p className="text-white text-sm font-medium">19h30</p>
-                                           </div>
-                                           <div>
-                                               <p className="text-[#D4AF37] text-[10px] font-bold uppercase tracking-widest mb-1">Local</p>
-                                               <p className="text-white text-sm font-medium">Online</p>
-                                           </div>
+                                       <div className="mt-8 flex gap-6">
+                                           <div><p className="text-[#D4AF37] text-[9px] uppercase font-bold mb-0.5">Data</p><p className="text-white text-xs">Quinta-Feira</p></div>
+                                           <div><p className="text-[#D4AF37] text-[9px] uppercase font-bold mb-0.5">Horário</p><p className="text-white text-xs">19h30</p></div>
+                                           <div><p className="text-[#D4AF37] text-[9px] uppercase font-bold mb-0.5">Local</p><p className="text-white text-xs">Online</p></div>
                                        </div>
                                    </div>
-
-
-                                   {/* Stub / Right Side */}
-                                   <div className="w-full md:w-40 bg-[#050505]/50 p-6 flex flex-col items-center justify-center relative">
-                                       {/* Mobile Perforation Circles */}
-                                       <div className="absolute -left-3 -top-3 w-6 h-6 bg-black rounded-full md:hidden"></div>
-                                       <div className="absolute -right-3 -top-3 w-6 h-6 bg-black rounded-full md:hidden"></div>
-
-
-                                       <div className="text-[#D4AF37]/40 font-serif-elite text-xl font-bold tracking-widest rotate-0 md:-rotate-90 whitespace-nowrap mb-4 md:mb-0">
-                                           ADMIT ONE
-                                       </div>
-                                      
-                                       {/* Fake QR Code */}
-                                       <div className="w-16 h-16 bg-white/10 p-1 mt-0 md:mt-4 md:absolute md:bottom-6">
-                                           <div className="w-full h-full border border-white/20 flex items-center justify-center">
-                                               <div className="w-10 h-10 bg-[#D4AF37] opacity-80 grid grid-cols-3 gap-0.5 p-0.5">
-                                                   {[...Array(9)].map((_, i) => (
-                                                       <div key={i} className={`bg-black ${i%2===0?'opacity-100':'opacity-0'}`}></div>
-                                                   ))}
-                                               </div>
-                                           </div>
+                                   <div className="w-full md:w-40 bg-[#050505]/50 p-6 flex flex-col items-center justify-center">
+                                       <div className="text-[#D4AF37]/40 font-serif-elite text-xl font-bold tracking-widest md:-rotate-90 whitespace-nowrap mb-4 md:mb-0">ADMIT ONE</div>
+                                       <div className="w-16 h-16 bg-[#D4AF37]/20 border border-[#D4AF37]/30 flex items-center justify-center mt-4">
+                                            <div className="w-10 h-10 bg-[#D4AF37] opacity-60 grid grid-cols-3 gap-0.5 p-0.5">
+                                                {[...Array(9)].map((_,i)=><div key={i} className={`bg-black ${i%2===0?'':'opacity-0'}`}></div>)}
+                                            </div>
                                        </div>
                                    </div>
                                </div>
                            </div>
-                          
                            <div className="pt-4">
-                               <button
-                                   onClick={openModal}
-                                   className="btn-elite px-10 py-6 text-lg md:text-xl rounded w-full md:w-auto uppercase shadow-[0_0_40px_rgba(212,175,55,0.15)]"
-                               >
+                               <button onClick={() => setIsModalOpen(true)} className="btn-elite px-10 py-6 text-xl rounded w-full md:w-auto uppercase shadow-2xl">
                                    GARANTIR MINHA VAGA GRATUITA
                                </button>
-                               <p className="mt-4 text-xs text-gray-600 uppercase tracking-widest">
-                                   © 2025 Todos os direitos reservados até o além.
-                               </p>
+                               <p className="mt-6 text-xs text-gray-600 uppercase tracking-widest">© 2025 Todos os direitos reservados.</p>
                            </div>
                        </div>
                    </footer>
-                  
-                   {/* Modal Instance */}
-                   <Modal isOpen={isModalOpen} onClose={closeModal} />
-
-
+                   <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
                </div>
            );
        };
-
 
        const root = ReactDOM.createRoot(document.getElementById('root'));
        root.render(<App />);
