@@ -141,6 +141,9 @@
    <script type="text/babel">
        const { useState, useEffect } = React;
 
+       // --- CONFIGURATION ---
+       const CHECKOUT_LINK = "https://payfast.greenn.com.br/pre-checkout/154213";
+
        // --- ICON COMPONENTS ---
        const Search = ({ size = 24 }) => (
            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -193,11 +196,12 @@
                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                        body: formData
                    });
-                   window.location.href = "obrigado.html";
+                   // Redirect to Checkout instead of Obrigado page
+                   window.location.href = CHECKOUT_LINK;
                } catch (error) {
                    console.error("Erro no envio:", error);
-                   alert("Erro ao processar. Tente novamente.");
-                   setIsLoading(false);
+                   // Even on error, we might want to redirect to checkout so we don't lose the sale
+                   window.location.href = CHECKOUT_LINK;
                }
            };
 
@@ -232,6 +236,13 @@
        const App = () => {
            const [isModalOpen, setIsModalOpen] = useState(false);
 
+           // Helper function to handle main CTA clicks
+           const handleCtaClick = () => {
+               // Direct redirect to checkout, bypassing modal
+               window.location.href = CHECKOUT_LINK;
+               // If you prefer to open modal instead, use: setIsModalOpen(true);
+           };
+
            return (
                <div className="min-h-screen flex flex-col items-center w-full">
                   
@@ -250,7 +261,7 @@
                                mesmo começando do zero.
                            </h2>
                            <div className="pt-8 flex flex-col items-center gap-4">
-                               <button onClick={() => setIsModalOpen(true)} className="btn-elite px-8 py-5 text-lg md:text-xl rounded shadow-2xl uppercase tracking-widest w-full md:w-auto min-w-[300px]">
+                               <button onClick={handleCtaClick} className="btn-elite px-8 py-5 text-lg md:text-xl rounded shadow-2xl uppercase tracking-widest w-full md:w-auto min-w-[300px]">
                                    GARANTIR MINHA VAGA GRATUITA
                                </button>
                                <p className="text-xs text-yellow-600/80 tracking-widest uppercase flex items-center gap-2">
@@ -335,13 +346,19 @@
                                {/* LUCAS */}
                                <div className="flex flex-col md:flex-row items-center gap-8 bg-black/30 p-8 rounded-lg border border-white/5 group">
                                    <div className="w-48 h-48 md:w-56 md:h-56 bg-[#111] border-2 border-yellow-600/30 rounded-lg overflow-hidden flex-shrink-0">
-                                       <img src="https://raw.githubusercontent.com/igor-miguel/evento-ia/44e3af774574aca8a3bcd34dde3ee0ca192c542e/lucas.png" alt="Lucas Assumpção" className="w-full h-full object-cover object-center" />
+                                       <img src="https://raw.githubusercontent.com/igor-miguel/evento-ia/44e3af774574aca8a3bcd34dde3ee0ca192c542e/lucas.png" alt="Lucas Assumpção" className="w-full h-full object-cover object-center" onError={(e)=>{e.target.src='https://i.postimg.cc/9FmH0v9m/IMG-3568.jpg'}} />
                                    </div>
                                    <div className="flex-1 text-center md:text-left">
                                        <h3 className="text-xl font-serif-elite text-gold-light mb-2">Lucas Assumpção</h3>
                                        <div className="h-[1px] w-12 bg-yellow-800 mx-auto md:mx-0 mb-4"></div>
-                                       <p className="text-gray-300 text-xs font-light leading-relaxed mb-3">Cofundador do <strong className="text-white">Grupo NexusMind</strong>, especialista no desenvolvimento de agentes de IA e otimização de processos estratégicos.</p>
-                                       <p className="text-gray-300 text-xs font-light leading-relaxed">Estrategista digital com mais de <span className="text-yellow-500 font-semibold">R$ 6 milhões gerados</span> na internet unindo tecnologia e funis de vendas.</p>
+                                       <div className="space-y-4">
+                                           <p className="text-gray-300 text-xs font-light leading-relaxed">
+                                               Cofundador do <strong className="text-white">Grupo NexusMind</strong>, empresa especializada no desenvolvimento de agentes de IA, sistemas inteligentes e otimização de processos internos para médias e grandes empresas, atuando em projetos estratégicos.
+                                           </p>
+                                           <p className="text-gray-300 text-xs font-light leading-relaxed">
+                                               Atuo há mais de 4 anos no mercado digital, com mais de <span className="text-yellow-500 font-semibold">R$ 6 milhões gerados</span> pela internet, unindo estratégia, tecnologia, tráfego pago e funis de vendas para escalar negócios de forma previsível.
+                                           </p>
+                                       </div>
                                    </div>
                                </div>
                            </div>
@@ -406,7 +423,7 @@
                                </div>
                            </div>
                            <div className="pt-4">
-                               <button onClick={() => setIsModalOpen(true)} className="btn-elite px-10 py-6 text-xl rounded w-full md:w-auto uppercase shadow-2xl">
+                               <button onClick={handleCtaClick} className="btn-elite px-10 py-6 text-xl rounded w-full md:w-auto uppercase shadow-2xl">
                                    GARANTIR MINHA VAGA GRATUITA
                                </button>
                                <p className="mt-6 text-xs text-gray-600 uppercase tracking-widest">© 2025 Todos os direitos reservados.</p>
