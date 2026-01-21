@@ -251,8 +251,8 @@
                   
                     {/* HERO SECTION - REVISADA PARA MOBILE */}
                     <header className="w-full relative min-h-[90dvh] md:min-h-screen flex flex-col justify-center items-center text-center px-4 md:px-6 py-12 md:py-20 bg-marble border-b border-[#333]">
-                        {/* Overlay escuro adicional para contraste mobile */}
-                        <div className="absolute inset-0 bg-black/20 md:bg-transparent z-0"></div>
+                        {/* Overlay escuro MUITO MAIS FORTE para mobile (80% opacidade + blur) */}
+                        <div className="absolute inset-0 bg-black/80 backdrop-blur-[2px] md:backdrop-blur-none md:bg-transparent z-0"></div>
 
                         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black to-transparent opacity-80 pointer-events-none"></div>
                         
