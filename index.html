@@ -259,6 +259,11 @@
 
             // Helper function to handle main CTA clicks
             const handleCtaClick = () => {
+                // TRACKING: Dispara o evento "InitiateCheckout" no Pixel antes de redirecionar
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'InitiateCheckout');
+                }
+
                 // Direct redirect to checkout, bypassing modal
                 window.location.href = CHECKOUT_LINK;
                 // If you prefer to open modal instead, use: setIsModalOpen(true);
