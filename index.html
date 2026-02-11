@@ -179,6 +179,12 @@
         const { useState } = React;
 
         const CHECKOUT_LINK = "https://payfast.greenn.com.br/154221";
+        
+        /**
+         * COLOQUE SEU LINK DO WEBHOOK AQUI
+         * Pode ser do Zapier, Make, n8n ou Google Apps Script
+         */
+        const WEBHOOK_URL = ""; 
 
         // --- ICONS ---
         const Search = ({ size = 24 }) => (
@@ -234,10 +240,33 @@
                 setIsModalOpen(true);
             };
 
-            const handleSubmit = (e) => {
+            const handleSubmit = async (e) => {
                 e.preventDefault();
                 setLoading(true);
-                setTimeout(() => { window.location.href = CHECKOUT_LINK; }, 1000);
+
+                try {
+                    // Tenta enviar os dados para o Webhook se o URL estiver configurado
+                    if (WEBHOOK_URL) {
+                        await fetch(WEBHOOK_URL, {
+                            method: 'POST',
+                            mode: 'no-cors', // Evita problemas de CORS em alguns webhooks simples
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                ...formData,
+                                source: 'Landing Page Elite Silenciosa',
+                                date: new Date().toISOString()
+                            }),
+                        });
+                    }
+                } catch (error) {
+                    console.error("Erro ao enviar dados para o webhook:", error);
+                    // Prossegue para o checkout mesmo se o webhook falhar para não perder a venda
+                }
+
+                // Redireciona para o checkout após o envio (ou falha)
+                window.location.href = CHECKOUT_LINK;
             };
 
             return (
@@ -251,11 +280,36 @@
                                 <div className="p-10">
                                     <h3 className="text-2xl font-serif-premium text-white mb-6 uppercase text-center tracking-tight">Garantir Ingresso</h3>
                                     <form onSubmit={handleSubmit} className="space-y-4">
-                                        <input type="text" required placeholder="Nome Completo" className="w-full elite-input py-4 px-5 rounded text-sm" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
-                                        <input type="email" required placeholder="E-mail Principal" className="w-full elite-input py-4 px-5 rounded text-sm" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
-                                        <input type="tel" required placeholder="WhatsApp" className="w-full elite-input py-4 px-5 rounded text-sm" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
-                                        <button type="submit" className="btn-elite w-full py-5 mt-4 text-sm font-bold flex items-center justify-center gap-2">
-                                            {loading ? 'Redirecionando...' : 'Quero garantir minha vaga'}
+                                        <input 
+                                            type="text" 
+                                            required 
+                                            placeholder="Nome Completo" 
+                                            className="w-full elite-input py-4 px-5 rounded text-sm" 
+                                            value={formData.name} 
+                                            onChange={e => setFormData({...formData, name: e.target.value})} 
+                                        />
+                                        <input 
+                                            type="email" 
+                                            required 
+                                            placeholder="E-mail Principal" 
+                                            className="w-full elite-input py-4 px-5 rounded text-sm" 
+                                            value={formData.email} 
+                                            onChange={e => setFormData({...formData, email: e.target.value})} 
+                                        />
+                                        <input 
+                                            type="tel" 
+                                            required 
+                                            placeholder="WhatsApp" 
+                                            className="w-full elite-input py-4 px-5 rounded text-sm" 
+                                            value={formData.phone} 
+                                            onChange={e => setFormData({...formData, phone: e.target.value})} 
+                                        />
+                                        <button 
+                                            type="submit" 
+                                            disabled={loading}
+                                            className="btn-elite w-full py-5 mt-4 text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-50"
+                                        >
+                                            {loading ? 'Processando...' : 'Quero garantir minha vaga'}
                                             {!loading && <Lock size={14} />}
                                         </button>
                                         <p className="text-[10px] text-gray-700 text-center uppercase tracking-widest pt-4">© Grupo NexusMind &bull; Checkout Seguro</p>
